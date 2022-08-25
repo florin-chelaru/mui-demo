@@ -1,10 +1,11 @@
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Container, Grid, Typography } from '@mui/material';
+import { Container } from '@mui/material';
+import Grid2 from '@mui/material/Unstable_Grid2'
 // components
 import Page from '../components/Page';
 // sections
-import { AppCurrentSubject, AppCurrentVisits, AppWebsiteVisits, } from '../sections/@dashboard/app';
+import { AppWebsiteVisits, } from '../sections/@dashboard/app';
 import { CustomTheme } from "../theme";
 import { CustomPalette } from "../theme/palette";
 
@@ -14,15 +15,12 @@ export default function DashboardApp () {
   const theme = useTheme<CustomTheme>();
   const palette = theme.palette as CustomPalette;
 
+
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
-        </Typography>
-
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={8}>
+        <Grid2 container spacing={3}>
+          <Grid2 xs={12} md={10} mdOffset={1} lg={8} lgOffset={2}>
             <AppWebsiteVisits
               title="Website Visits"
               subheader="(+43%) than last year"
@@ -60,40 +58,8 @@ export default function DashboardApp () {
                 },
               ]}
             />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentVisits
-              title="Current Visits"
-              chartData={[
-                { label: 'America', value: 4344 },
-                { label: 'Asia', value: 5435 },
-                { label: 'Europe', value: 1443 },
-                { label: 'Africa', value: 4443 },
-              ]}
-              chartColors={[
-                palette.primary?.main,
-                palette.chart.blue[0],
-                palette.chart.violet[0],
-                palette.chart.yellow[0],
-              ]}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentSubject
-              title="Current Subject"
-              chartLabels={['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math']}
-              chartData={[
-                { name: 'Series 1', data: [80, 50, 30, 40, 100, 20] },
-                { name: 'Series 2', data: [20, 30, 40, 80, 20, 80] },
-                { name: 'Series 3', data: [44, 76, 78, 13, 43, 10] },
-              ]}
-              chartColors={[...Array(6)].map(() => theme.palette.text.secondary)}
-            />
-          </Grid>
-
-        </Grid>
+          </Grid2>
+        </Grid2>
       </Container>
     </Page>
   );
