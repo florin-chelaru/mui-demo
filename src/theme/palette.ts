@@ -1,4 +1,4 @@
-import { alpha } from '@mui/material/styles';
+import { alpha, Palette } from '@mui/material/styles';
 import { Color } from "@mui/material";
 
 // ----------------------------------------------------------------------
@@ -17,6 +17,10 @@ export interface CustomColor extends Partial<Color> {
   500_48: string
   500_56: string
   500_80: string
+}
+
+export interface CustomPalette extends Partial<Palette> {
+  chart: any
 }
 
 // SETUP COLORS

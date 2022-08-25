@@ -1,9 +1,14 @@
 import React from 'react';
+import ThemeProvider from "./theme";
+import { BaseOptionChartStyle } from "./components/chart/BaseOptionChart";
+import DashboardApp from "./pages/DashboardApp";
 
 function App () {
   return (
-    <div>
-    </div>
+    <ThemeProvider>
+      <BaseOptionChartStyle/>
+      <DashboardApp/>
+    </ThemeProvider>
   );
 }
 
