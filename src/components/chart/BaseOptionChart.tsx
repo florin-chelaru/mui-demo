@@ -96,9 +96,13 @@ export default function BaseOptionChart () {
 
     // Chart
     chart: {
-      toolbar: { show: false },
-      zoom: { enabled: false },
-      // animations: { enabled: false },
+      toolbar: { show: true },
+      zoom: {
+        type: 'x',
+        enabled: true,
+        autoScaleYaxis: false
+      },
+      animations: { enabled: false },
       foreColor: palette.text?.disabled,
       fontFamily: theme.typography.fontFamily
     },

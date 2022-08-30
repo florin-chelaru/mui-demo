@@ -39,19 +39,19 @@ export default function DashboardApp () {
               ]}
               chartData={[
                 {
-                  name: 'Team A',
-                  type: 'column',
+                  name: 'GOOG',
+                  type: 'line',
                   fill: 'solid',
                   data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
                 },
                 {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
+                  name: 'AAPL',
+                  type: 'line',
+                  fill: 'solid',
                   data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
                 },
                 {
-                  name: 'Team C',
+                  name: 'MSFT',
                   type: 'line',
                   fill: 'solid',
                   data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
