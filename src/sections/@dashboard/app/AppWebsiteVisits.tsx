@@ -1,28 +1,34 @@
 import PropTypes from 'prop-types';
 import merge from 'lodash/merge';
-import ReactApexChart from 'react-apexcharts';
+import {
+  ChartOptions,
+  ChartTheme,
+  DataView,
+  DateWindow,
+  LineChart,
+  MATERIAL_PALETTE,
+  Navigation,
+  SampleDataStore
+} from "@florin-chelaru/smart-charts";
+import { ParentSize } from "@visx/responsive";
 // @mui
 import {
   Autocomplete,
   Backdrop,
   Box,
   Card,
-  CardClasses,
-  Divider,
   IconButton,
   InputBase,
   Paper,
-  SpeedDial, SpeedDialAction,
-  SpeedDialIcon, TextField
+  SpeedDial,
+  SpeedDialAction,
+  SpeedDialIcon
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import DirectionsIcon from '@mui/icons-material/Directions';
 // components
 import { BaseOptionChart } from '../../../components/chart';
 import Grid2 from "@mui/material/Unstable_Grid2";
-import { ElementType, useRef, useState } from "react";
-import { useTheme } from "@mui/material/styles";
+import { useRef, useState } from "react";
 import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
@@ -60,6 +66,11 @@ const symbols = [
 ];
 
 export default function AppWebsiteVisits ({ title, subheader, chartLabels, chartData, ...other }: any) {
+  const store = new SampleDataStore()
+  const initialDateWindow = new DateWindow('2022-03-01', '2022-05-01')
+  const options: ChartOptions = {
+    xGrid: { disabled: true }
+  }
   const searchBarRef = useRef<HTMLDivElement>(null);
   const chartOptions: any = merge(BaseOptionChart(), {
     plotOptions: { bar: { columnWidth: '16%' } },
@@ -84,67 +95,6 @@ export default function AppWebsiteVisits ({ title, subheader, chartLabels, chart
       },
     },
   });
-
-  // var options = {
-  //   series: [{
-  //     name: 'XYZ MOTORS',
-  //     data: dates
-  //   }],
-  //   chart: {
-  //     type: 'area',
-  //     stacked: false,
-  //     height: 350,
-  //     zoom: {
-  //       type: 'x',
-  //       enabled: true,
-  //       autoScaleYaxis: true
-  //     },
-  //     toolbar: {
-  //       autoSelected: 'zoom'
-  //     }
-  //   },
-  //   dataLabels: {
-  //     enabled: false
-  //   },
-  //   markers: {
-  //     size: 0,
-  //   },
-  //   title: {
-  //     text: 'Stock Price Movement',
-  //     align: 'left'
-  //   },
-  //   fill: {
-  //     type: 'gradient',
-  //     gradient: {
-  //       shadeIntensity: 1,
-  //       inverseColors: false,
-  //       opacityFrom: 0.5,
-  //       opacityTo: 0,
-  //       stops: [0, 90, 100]
-  //     },
-  //   },
-  //   yaxis: {
-  //     labels: {
-  //       formatter: function (val) {
-  //         return (val / 1000000).toFixed(0);
-  //       },
-  //     },
-  //     title: {
-  //       text: 'Price'
-  //     },
-  //   },
-  //   xaxis: {
-  //     type: 'datetime',
-  //   },
-  //   tooltip: {
-  //     shared: false,
-  //     y: {
-  //       formatter: function (val) {
-  //         return (val / 1000000).toFixed(0)
-  //       }
-  //     }
-  //   }
-  // };
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -197,7 +147,19 @@ export default function AppWebsiteVisits ({ title, subheader, chartLabels, chart
       </Box>
 
       <Box sx={{ p: 3, pb: 1, pt: 0 }} dir="ltr">
-        <ReactApexChart type="line" series={chartData} options={chartOptions} height={364}/>
+        {/*<ReactApexChart type="line" series={chartData} options={chartOptions} height={364}/>*/}
+        <ParentSize>
+          {({ width, height }) => (
+            <ChartTheme palette={MATERIAL_PALETTE}>
+              <DataView view={store.stockDataTable.view(initialDateWindow).asPercentChangeOfFirstRow}>
+                <Navigation>
+                  <LineChart width={width} height={364} options={options}/>
+                  {/* <LineChart width={600} height={400} margin={chartMargin} /> */}
+                </Navigation>
+              </DataView>
+            </ChartTheme>
+          )}
+        </ParentSize>
       </Box>
 
       <Backdrop
