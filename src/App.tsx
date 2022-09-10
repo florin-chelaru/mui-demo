@@ -2,8 +2,8 @@ import React from 'react';
 import ThemeProvider from "./theme";
 import { BaseOptionChartStyle } from "./components/chart/BaseOptionChart";
 import DashboardApp from "./pages/DashboardApp";
-import { Box, Card } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
+
 
 function App () {
   return (

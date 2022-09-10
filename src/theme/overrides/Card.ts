@@ -11,6 +11,7 @@ export default function Card (theme: CustomTheme) {
           borderRadius: Number(theme.shape.borderRadius) * 2,
           position: 'relative',
           zIndex: 0, // Fix Safari overflow: hidden with border radius
+          overflow: 'visible'
         },
       },
     },

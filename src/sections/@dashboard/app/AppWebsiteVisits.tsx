@@ -3,12 +3,11 @@ import merge from 'lodash/merge';
 import {
   ChartOptions,
   ChartTheme,
-  DataView,
   DateWindow,
   LineChart,
   MATERIAL_PALETTE,
-  Navigation,
-  SampleDataStore
+  NavigationProvider,
+  SampleDataStore, StockDataTable
 } from "@florin-chelaru/smart-charts";
 import { ParentSize } from "@visx/responsive";
 // @mui
@@ -99,6 +98,7 @@ export default function AppWebsiteVisits ({ title, subheader, chartLabels, chart
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const data = useRef<StockDataTable>(store.stockDataTable)
 
   return (
     <Card {...other}>
@@ -151,12 +151,10 @@ export default function AppWebsiteVisits ({ title, subheader, chartLabels, chart
         <ParentSize>
           {({ width, height }) => (
             <ChartTheme palette={MATERIAL_PALETTE}>
-              <DataView view={store.stockDataTable.view(initialDateWindow).asPercentChangeOfFirstRow}>
-                <Navigation>
-                  <LineChart width={width} height={364} options={options}/>
-                  {/* <LineChart width={600} height={400} margin={chartMargin} /> */}
-                </Navigation>
-              </DataView>
+              <NavigationProvider data={data.current} initialDateWindow={initialDateWindow}>
+                <LineChart width={width} height={364} options={options}/>
+                {/* <LineChart width={600} height={400} margin={chartMargin} /> */}
+              </NavigationProvider>
             </ChartTheme>
           )}
         </ParentSize>
