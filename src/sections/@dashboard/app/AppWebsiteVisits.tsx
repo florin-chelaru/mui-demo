@@ -1,15 +1,15 @@
-import PropTypes from 'prop-types';
-import merge from 'lodash/merge';
 import {
   ChartOptions,
-  ChartTheme,
+  ChartThemeProvider,
   DateWindow,
   LineChart,
   MATERIAL_PALETTE,
   NavigationProvider,
-  SampleDataStore, StockDataTable
+  SampleDataStore, ScatterPlot,
+  StockDataTable
 } from "@florin-chelaru/smart-charts";
 import { ParentSize } from "@visx/responsive";
+import * as d3 from 'd3'
 // @mui
 import {
   Autocomplete,
@@ -25,7 +25,6 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 // components
-import { BaseOptionChart } from '../../../components/chart';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { useRef, useState } from "react";
 import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
@@ -34,20 +33,6 @@ import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
 
 // ----------------------------------------------------------------------
-
-AppWebsiteVisits.propTypes = {
-  title: PropTypes.string,
-  subheader: PropTypes.string,
-  chartData: PropTypes.array.isRequired,
-  chartLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
-};
-
-interface ChartDatum {
-  name: string
-  type: string
-  fill: string
-  data: number[]
-}
 
 const actions = [
   { name: 'Custom action' },
@@ -64,36 +49,33 @@ const symbols = [
   'VOO'
 ];
 
-export default function AppWebsiteVisits ({ title, subheader, chartLabels, chartData, ...other }: any) {
+export default function AppWebsiteVisits ({ ...other }: any) {
   const store = new SampleDataStore()
   const initialDateWindow = new DateWindow('2022-03-01', '2022-05-01')
-  const options: ChartOptions = {
-    xGrid: { disabled: true }
+  const lineChartTicks = (size: number) => size / 120
+  const scatterPlotTicks = (size: number) => size / 60
+  const lineChartOptions: ChartOptions = {
+    xAxis: { ticks: lineChartTicks },
+    yAxis: { ticks: lineChartTicks },
+    xGrid: { ticks: lineChartTicks },
+    yGrid: { ticks: lineChartTicks }
+  }
+
+  const scatterPlotOptions: ChartOptions = {
+    xAxis: {
+      format: d3.format(',.0%'),
+      ticks: scatterPlotTicks,
+      label: store.stockDataTable.symbols[1]
+    },
+    yAxis: {
+      format: d3.format(',.0%'),
+      ticks: scatterPlotTicks,
+      label: store.stockDataTable.symbols[0]
+    },
+    xGrid: { ticks: scatterPlotTicks },
+    yGrid: { ticks: scatterPlotTicks }
   }
   const searchBarRef = useRef<HTMLDivElement>(null);
-  const chartOptions: any = merge(BaseOptionChart(), {
-    plotOptions: { bar: { columnWidth: '16%' } },
-    fill: { type: chartData.map((i: ChartDatum) => i.fill) },
-    labels: chartLabels,
-    xaxis: { type: 'datetime' },
-    legend: {
-      position: 'right',
-      horizontalAlign: 'right',
-      floating: true
-    },
-    tooltip: {
-      shared: true,
-      intersect: false,
-      y: {
-        formatter: (y: number | undefined) => {
-          if (typeof y !== 'undefined') {
-            return `$${y.toFixed(0)}`;
-          }
-          return y;
-        },
-      },
-    },
-  });
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -104,25 +86,10 @@ export default function AppWebsiteVisits ({ title, subheader, chartLabels, chart
     <Card {...other}>
       <Box sx={{ p: 3, pb: 0 }}>
         <Grid2 container margin={0}>
-          <Grid2 sm={12}>
-            <Card ref={searchBarRef}
-                  sx={{ boxShadow: 0, '&:hover': { boxShadow: 4 } }}
-            >
-              <Paper
-                elevation={0}
-                component="form"
-                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center' }}
-              >
-                <IconButton
-                  sx={{ p: '10px' }} aria-label="menu"
-                  onClick={() => {
-                    // if (cardRef.current?.style) {
-                    //   cardRef.current.style.boxShadow = searchBoxElevated ? theme.shadows[0] : theme.shadows[4];
-                    //   searchBoxElevated = !searchBoxElevated
-                    // }
-
-                  }}
-                >
+          <Grid2 xs={12}>
+            <Card ref={searchBarRef} sx={{ boxShadow: 0, '&:hover': { boxShadow: 4 } }}>
+              <Paper elevation={0} component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center' }}>
+                <IconButton sx={{ p: '10px' }} aria-label="menu">
                   <SearchIcon/>
                 </IconButton>
 
@@ -147,17 +114,31 @@ export default function AppWebsiteVisits ({ title, subheader, chartLabels, chart
       </Box>
 
       <Box sx={{ p: 3, pb: 1, pt: 0 }} dir="ltr">
-        {/*<ReactApexChart type="line" series={chartData} options={chartOptions} height={364}/>*/}
-        <ParentSize>
-          {({ width, height }) => (
-            <ChartTheme palette={MATERIAL_PALETTE}>
-              <NavigationProvider data={data.current} initialDateWindow={initialDateWindow}>
-                <LineChart width={width} height={364} options={options}/>
-                {/* <LineChart width={600} height={400} margin={chartMargin} /> */}
-              </NavigationProvider>
-            </ChartTheme>
-          )}
-        </ParentSize>
+        <ChartThemeProvider palette={MATERIAL_PALETTE}>
+          <NavigationProvider data={data.current} initialDateWindow={initialDateWindow}>
+            <Grid2 container margin={0}>
+              <Grid2 xs={12} md={8} sx={{ p: 0 }}>
+                <ParentSize>
+                  {({ width, height }) => (
+                    <LineChart width={width} height={364} options={lineChartOptions}/>
+                  )}
+                </ParentSize>
+              </Grid2>
+              <Grid2 xs={12} md={4} sx={{ p: 0 }}>
+                <ParentSize>
+                  {({ width, height }) => (
+                    <ScatterPlot
+                      width={width}
+                      height={364}
+                      options={scatterPlotOptions}
+                      xSymbol={store.stockDataTable.symbols[1]}
+                      ySymbol={store.stockDataTable.symbols[0]}
+                    />)}
+                </ParentSize>
+              </Grid2>
+            </Grid2>
+          </NavigationProvider>
+        </ChartThemeProvider>
       </Box>
 
       <Backdrop

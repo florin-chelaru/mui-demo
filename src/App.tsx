@@ -9,8 +9,9 @@ function App () {
   return (
     <ThemeProvider>
       <BaseOptionChartStyle/>
-      <Grid2 container display='flex' alignItems='center' height='100%'>
-        <Grid2 sm={12}>
+      <Grid2 container alignItems='center' height='100%'>
+      {/*<Grid2 container display='flex' alignItems='center' height='100%'>*/}
+        <Grid2 xs={12}>
           <DashboardApp/>
         </Grid2>
       </Grid2>
