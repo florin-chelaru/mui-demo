@@ -1,16 +1,4 @@
-import {
-  Autocomplete,
-  Backdrop,
-  Box,
-  Card,
-  Container,
-  IconButton,
-  InputBase,
-  Paper,
-  SpeedDial,
-  SpeedDialAction,
-  SpeedDialIcon
-} from '@mui/material';
+import { Backdrop, Box, Card, Container, SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2'
 import Page from '../components/Page';
 import FileCopyIcon from "@mui/icons-material/FileCopyOutlined";
@@ -22,15 +10,14 @@ import {
   ChartThemeProvider,
   DateWindow,
   LineChart,
-  MATERIAL_PALETTE,
+  MATERIAL_PALETTE, NavigationControl,
   NavigationProvider,
   SampleDataStore,
   ScatterPlot,
-  StockDataTable
+  StockDataTable, useClientRect
 } from "@florin-chelaru/smart-charts";
 import * as d3 from "d3";
 import { useRef, useState } from "react";
-import SearchIcon from "@mui/icons-material/Search";
 import { ParentSize } from "@visx/responsive";
 import SearchBar from "../components/chart/SearchBar";
 
@@ -83,6 +70,9 @@ export default function Dashboard () {
   const data = useRef<StockDataTable>(store.stockDataTable)
   const initialDateWindow = new DateWindow('2022-03-01', '2022-05-01')
 
+  const [navigationControl, navigationControlRef] = useClientRect()
+  const chartHeight = 364
+
   return (
     <ChartThemeProvider palette={MATERIAL_PALETTE}>
       <NavigationProvider data={data.current} initialDateWindow={initialDateWindow}>
@@ -92,15 +82,13 @@ export default function Dashboard () {
               <Grid2 xs={12} xl={10} xlOffset={1}>
                 <SearchBar options={symbols}/>
               </Grid2>
-              {/*<Grid2 xs={12} md={10} mdOffset={1} lg={10} lgOffset={1}>*/}
-              {/*<Grid2 container margin={0} rowSpacing={3} columnSpacing={0}*/}
-              {/*       sx={{ mx: { xs: 0 } }}>*/}
               <Grid2 xs={12} md={8} xl={7} xlOffset={1}>
                 <Card>
                   <Box sx={{ p: { xs: 0, xl: 3 }, pb: 1, pt: 0 }} dir="ltr">
+                    <NavigationControl ref={navigationControlRef} />
                     <ParentSize>
                       {({ width, height }) => (
-                        <LineChart width={width} height={364} options={lineChartOptions}/>
+                        <LineChart width={width} height={chartHeight} options={lineChartOptions}/>
                       )}
                     </ParentSize>
                   </Box>
@@ -113,7 +101,7 @@ export default function Dashboard () {
                       {({ width, height }) => (
                         <ScatterPlot
                           width={width}
-                          height={364}
+                          height={(navigationControl?.height || 0) + chartHeight}
                           options={scatterPlotOptions}
                           xSymbol={store.stockDataTable.symbols[1]}
                           ySymbol={store.stockDataTable.symbols[0]}
@@ -121,8 +109,6 @@ export default function Dashboard () {
                     </ParentSize>
                   </Box>
                 </Card>
-                {/*</Grid2>*/}
-                {/*</Grid2>*/}
               </Grid2>
             </Grid2>
           </Container>
