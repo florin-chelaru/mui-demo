@@ -20,7 +20,7 @@ export default function ComponentsOverrides (theme: CustomTheme) {
     Paper(),
     Button(theme),
     Tooltip(theme),
-    Backdrop(theme),
+    Backdrop(),
     Typography(theme),
     CssBaseline(),
     Autocomplete(theme)
