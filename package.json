@@ -5,7 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
-    "@florin-chelaru/smart-charts": "^1.1.11",
+    "@florin-chelaru/smart-charts": "^1.1.13",
     "@mui/icons-material": "^5.10.2",
     "@mui/material": "^5.10.6",
     "@types/d3": "^7.4.0",

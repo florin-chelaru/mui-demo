@@ -16,10 +16,10 @@ import {
   SampleDataStore,
   ScatterPlot,
   StockDataTable,
-  useClientRect
+  useClientRect,
 } from "@florin-chelaru/smart-charts";
 import * as d3 from "d3";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { ParentSize } from "@visx/responsive";
 import SearchBar from "../components/chart/SearchBar";
 
@@ -77,13 +77,13 @@ export default function Dashboard () {
   return (
     <ChartThemeProvider palette={MATERIAL_PALETTE}>
       <NavigationProvider data={data.current} initialDateWindow={initialDateWindow}>
-        <Page title="Dashboard" sx={{}}>
-          <Container maxWidth="xl">
+        <Page title="Dashboard">
+          <Container maxWidth="lg">
             <Grid2 container spacing={{ xs: 2, md: 1, lg: 3 }}>
-              <Grid2 xs={12} xl={10} xlOffset={1}>
+              <Grid2 xs={12}>
                 <SearchBar options={symbols}/>
               </Grid2>
-              <Grid2 xs={12} md={8} xl={7} xlOffset={1}>
+              <Grid2 xs={12} md={8}>
                 <Card>
                   <Box sx={{ p: { xs: 0, xl: 3 }, pb: 1, pt: 0 }} dir="ltr">
                     <NavigationControl ref={navigationControlRef}/>
@@ -95,7 +95,7 @@ export default function Dashboard () {
                   </Box>
                 </Card>
               </Grid2>
-              <Grid2 xs={12} md={4} xl={3}>
+              <Grid2 xs={12} md={4}>
                 <Card>
                   <Box sx={{ p: { xs: 0, xl: 3 }, pb: 1, pt: 0 }} dir="ltr">
                     <ParentSize>
@@ -139,5 +139,5 @@ export default function Dashboard () {
       </NavigationProvider>
     </ChartThemeProvider>
   )
-    ;
+
 }

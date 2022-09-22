@@ -6,11 +6,9 @@ import { Box } from '@mui/material';
 // ----------------------------------------------------------------------
 
 const Page = forwardRef(({ children, title = '', meta, ...other }: any, ref) => (
-  <>
-    <Box ref={ref} {...other}>
-      {children}
-    </Box>
-  </>
+  <Box ref={ref} {...other}>
+    {children}
+  </Box>
 ));
 Page.displayName = "Page"
 

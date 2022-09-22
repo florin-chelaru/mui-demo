@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Card, Container, IconButton, InputBase, Paper } from "@mui/material";
+import { Autocomplete, Box, Card, IconButton, InputBase } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 interface SearchBarProps {
@@ -7,8 +7,8 @@ interface SearchBarProps {
 
 const SearchBar = ({ options }: SearchBarProps) => {
   return (
-    <Card sx={{ mt: 2,  '&:hover': { boxShadow: 4 } }}>
-      <Box  sx={{ p: '2px 16px 2px 4px', display: 'flex', alignItems: 'center' }}>
+    <Card sx={{ mt: { xs: 1, sm: 2 }, '&:hover': { boxShadow: 4 } }}>
+      <Box sx={{ p: '2px 16px 2px 4px', display: 'flex', alignItems: 'center' }}>
         <IconButton sx={{ p: '10px' }} aria-label="menu">
           <SearchIcon/>
         </IconButton>
