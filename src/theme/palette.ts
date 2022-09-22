@@ -24,7 +24,7 @@ export interface CustomPalette extends Partial<Palette> {
 }
 
 // SETUP COLORS
-const GREY: CustomColor = {
+export const GREY: CustomColor = {
   0: '#FFFFFF',
   100: '#F9FAFB',
   200: '#F4F6F8',
@@ -44,6 +44,7 @@ const GREY: CustomColor = {
   500_56: alpha('#919EAB', 0.56),
   500_80: alpha('#919EAB', 0.8),
 };
+
 
 const PRIMARY = {
   lighter: '#D1E9FC',

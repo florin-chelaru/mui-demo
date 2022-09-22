@@ -7,8 +7,8 @@ interface SearchBarProps {
 
 const SearchBar = ({ options }: SearchBarProps) => {
   return (
-    <Card sx={{ '&:hover': { boxShadow: 4 } }}>
-      <Box  sx={{ mt: 2, p: '2px 16px 2px 4px', display: 'flex', alignItems: 'center' }}>
+    <Card sx={{ mt: 2,  '&:hover': { boxShadow: 4 } }}>
+      <Box  sx={{ p: '2px 16px 2px 4px', display: 'flex', alignItems: 'center' }}>
         <IconButton sx={{ p: '10px' }} aria-label="menu">
           <SearchIcon/>
         </IconButton>

@@ -10,11 +10,13 @@ import {
   ChartThemeProvider,
   DateWindow,
   LineChart,
-  MATERIAL_PALETTE, NavigationControl,
+  MATERIAL_PALETTE,
+  NavigationControl,
   NavigationProvider,
   SampleDataStore,
   ScatterPlot,
-  StockDataTable, useClientRect
+  StockDataTable,
+  useClientRect
 } from "@florin-chelaru/smart-charts";
 import * as d3 from "d3";
 import { useRef, useState } from "react";
@@ -61,7 +63,6 @@ const scatterPlotOptions: ChartOptions = {
 }
 
 export default function Dashboard () {
-  const searchBarRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -85,7 +86,7 @@ export default function Dashboard () {
               <Grid2 xs={12} md={8} xl={7} xlOffset={1}>
                 <Card>
                   <Box sx={{ p: { xs: 0, xl: 3 }, pb: 1, pt: 0 }} dir="ltr">
-                    <NavigationControl ref={navigationControlRef} />
+                    <NavigationControl ref={navigationControlRef}/>
                     <ParentSize>
                       {({ width, height }) => (
                         <LineChart width={width} height={chartHeight} options={lineChartOptions}/>
