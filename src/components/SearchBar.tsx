@@ -1,5 +1,8 @@
-import { Autocomplete, Box, Card, IconButton, InputBase } from "@mui/material";
+import { Autocomplete, Box, Card, Divider, IconButton, InputBase } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import React from "react";
+import AccountPopover from "./AccountPopover";
+
 
 interface SearchBarProps {
   options: string[]
@@ -27,6 +30,8 @@ const SearchBar = ({ options }: SearchBarProps) => {
             return <InputBase {...params.InputProps} {...rest} />;
           }}
         />
+        <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical"/>
+        <AccountPopover/>
       </Box>
     </Card>)
 }

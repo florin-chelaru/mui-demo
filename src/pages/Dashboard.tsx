@@ -21,7 +21,7 @@ import {
 import * as d3 from "d3";
 import React, { useRef, useState } from "react";
 import { ParentSize } from "@visx/responsive";
-import SearchBar from "../components/chart/SearchBar";
+import SearchBar from "../components/SearchBar";
 
 const actions = [
   { name: 'Custom action' },

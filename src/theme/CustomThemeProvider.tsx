@@ -1,7 +1,9 @@
-import { CssBaseline, PaletteMode, ThemeProvider, useMediaQuery } from '@mui/material'
+import { CssBaseline, PaletteMode, PaletteOptions, ThemeOptions, ThemeProvider, useMediaQuery } from '@mui/material'
 import { createTheme } from '@mui/material/styles'
 import React from 'react'
 import { ChartsMaterialThemeProvider } from "@florin-chelaru/smart-charts";
+import { GREY } from "./palette";
+import shadows from './shadows';
 
 interface CustomThemeProviderProps {
   children: JSX.Element | JSX.Element[]
@@ -11,11 +13,20 @@ interface CustomThemeProviderProps {
 export default function CustomThemeProvider ({ children, mode }: CustomThemeProviderProps) {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   mode = mode || (prefersDarkMode ? 'dark' : 'light')
-  const palette =
-    mode === 'dark' ? { mode, background: { paper: '#2B2D3E', default: '#343E59' } } : { mode }
-  const theme = createTheme({
-    palette
-  })
+  const palette: PaletteOptions = { mode }
+
+  const themeOptions: ThemeOptions = {
+    shape: { borderRadius: 8 }
+  }
+  if (mode === 'dark') {
+    palette.background = { paper: '#2B2D3E', default: '#343E59' }
+  } else {
+    palette.background = { default: GREY[100] }
+    themeOptions.shadows = shadows
+  }
+  themeOptions.palette = palette
+
+  const theme = createTheme(themeOptions)
 
   theme.components = {
     MuiCssBaseline: {
@@ -43,13 +54,20 @@ export default function CustomThemeProvider ({ children, mode }: CustomThemeProv
     MuiCard: {
       styleOverrides: {
         root: {
-          // boxShadow: theme.shadows[2],
-          boxShadow: '0 .5rem 1rem rgba(0,0,0,.15)!important',
+          boxShadow: theme.shadows[2],
           borderRadius: Number(theme.shape.borderRadius) * 2,
           // position: 'relative',
           zIndex: 0, // Fix Safari overflow: hidden with border radius
           overflow: 'visible', // To allow tooltips to go outside the card
           backgroundImage: 'none'
+        }
+      }
+    },
+    MuiPopover: {
+      styleOverrides: {
+        paper: {
+          // backgroundImage: "none",
+          boxShadow: theme.shadows[10]
         }
       }
     }
